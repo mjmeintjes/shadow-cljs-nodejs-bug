@@ -1,0 +1,10 @@
+{:source-paths
+ ["src"]
+
+ :nrepl
+ {:port 8777}
+ :builds {:bug-test
+          {:id :script
+           :target :node-script
+           :main mattsum.bug-test.core/main
+           :output-to "out/bug-test/main.js"}}}

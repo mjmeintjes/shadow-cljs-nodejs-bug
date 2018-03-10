@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "shadow-cljs": "^2.2.6"
+  }
+}
