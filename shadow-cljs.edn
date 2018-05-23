@@ -1,10 +1,17 @@
 {:source-paths
  ["src"]
 
- :dependencies [[funcool/promesa "1.9.0"]]
+ :dependencies 
+ [[cider/cider-nrepl "0.17.0"]
+  [refactor-nrepl "2.4.0-SNAPSHOT"] 
+  [funcool/promesa "1.9.0"]]
 
  :nrepl
- {:port 8777}
+ {:port 9991}
+ ;; :nrepl
+ ;; {:middleware
+ ;;  [refactor-nrepl.middleware/wrap-refactor]}
+
  :builds {:bug-test
           {:id :script
            :target :node-script

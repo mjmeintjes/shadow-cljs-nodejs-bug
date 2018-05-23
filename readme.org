@@ -1,153 +1,102 @@
-* 1. Demonstrates error with shadow-cljs and nodejs
-** =yarn install=
-** Compile app =shadow-cljs watch bug-test=
-** Start node app =node out/bug-test/main.js=
-** Force a compilation error in =core.cljs=
-Example, remove the last parenthesis, then save the file
-** Get the following output from the node-js app
-#+BEGIN_SRC clojure
-failed to process message {:type :build-failure, :build-config {:id :bug-test, :target :node-script, :main mattsum.bug-test.core/main, :output-to "out/bug-test/main.js", :build-id :bug-test}, :report "------ ERROR -------------------------------------------------------------------\n File: /home/matthys/projects/personal/shadow-cljs-nodejs-bug/src/mattsum/bug_test/core.cljs:5:1\nmattsum/bug_test/core.cljs [line 5, col 1] Unexpected EOF while reading item 4 of list, starting at line 3 and column 1.\n\n--------------------------------------------------------------------------------\n--------------------------------------------------------------------------------\n", :e #error {
- :cause "mattsum/bug_test/core.cljs [line 5, col 1] Unexpected EOF while reading item 4 of list, starting at line 3 and column 1."
- :data {:type :reader-exception, :ex-kind :eof, :file "mattsum/bug_test/core.cljs", :line 5, :col 1}
- :via
- [{:type clojure.lang.ExceptionInfo
-   :message "failed to compile resource: [:shadow.build.classpath/resource \"mattsum/bug_test/core.cljs\"]"
-   :data {:tag :shadow.build.compiler/compile-cljs, :source-id [:shadow.build.classpath/resource "mattsum/bug_test/core.cljs"], :url #object[java.net.URL 0x3676b590 "file:/home/matthys/projects/personal/shadow-cljs-nodejs-bug/src/mattsum/bug_test/core.cljs"], :file #object[java.io.File 0x21f53694 "/home/matthys/projects/personal/shadow-cljs-nodejs-bug/src/mattsum/bug_test/core.cljs"], :line 5, :column 1, :source-excerpt nil}
-   :at [clojure.core$ex_info invokeStatic "core.clj" 4739]}
-  {:type clojure.lang.ExceptionInfo
-   :message "mattsum/bug_test/core.cljs [line 5, col 1] Unexpected EOF while reading item 4 of list, starting at line 3 and column 1."
-   :data {:type :reader-exception, :ex-kind :eof, :file "mattsum/bug_test/core.cljs", :line 5, :col 1}
-   :at [clojure.core$ex_info invokeStatic "core.clj" 4739]}]
- :trace
- [[clojure.core$ex_info invokeStatic "core.clj" 4739]
-  [clojure.core$ex_info invoke "core.clj" 4739]
-  [clojure.tools.reader.impl.errors$throw_ex invokeStatic "errors.clj" 34]
-  [clojure.tools.reader.impl.errors$throw_ex doInvoke "errors.clj" 24]
-  [clojure.lang.RestFn invoke "RestFn.java" 442]
-  [clojure.tools.reader.impl.errors$eof_error invokeStatic "errors.clj" 46]
-  [clojure.tools.reader.impl.errors$eof_error doInvoke "errors.clj" 42]
-  [clojure.lang.RestFn invoke "RestFn.java" 516]
-  [clojure.tools.reader.impl.errors$throw_eof_delimited invokeStatic "errors.clj" 57]
-  [clojure.tools.reader.impl.errors$throw_eof_delimited invoke "errors.clj" 54]
-  [clojure.tools.reader$read_delimited invokeStatic "reader.clj" 201]
-  [clojure.tools.reader$read_delimited invoke "reader.clj" 190]
-  [clojure.tools.reader$read_list invokeStatic "reader.clj" 208]
-  [clojure.tools.reader$read_list invoke "reader.clj" 204]
-  [clojure.tools.reader$read_STAR_ invokeStatic "reader.clj" 924]
-  [clojure.tools.reader$read_STAR_ invoke "reader.clj" 906]
-  [clojure.tools.reader$read invokeStatic "reader.clj" 977]
-  [clojure.tools.reader$read invoke "reader.clj" 950]
-  [shadow.build.compiler$do_compile_cljs_string$fn__14516$fn__14518 invoke "compiler.clj" 182]
-  [shadow.build.compiler$do_compile_cljs_string$fn__14516 invoke "compiler.clj" 166]
-  [shadow.build.compiler$do_compile_cljs_string invokeStatic "compiler.clj" 157]
-  [shadow.build.compiler$do_compile_cljs_string invoke "compiler.clj" 142]
-  [shadow.build.compiler$compile_cljs_string$fn__14574 invoke "compiler.clj" 311]
-  [shadow.build.compiler$compile_cljs_string invokeStatic "compiler.clj" 310]
-  [shadow.build.compiler$compile_cljs_string invoke "compiler.clj" 308]
-  [shadow.build.compiler$do_compile_cljs_resource$fn__14592 invoke "compiler.clj" 388]
-  [shadow.build.compiler$do_compile_cljs_resource invokeStatic "compiler.clj" 370]
-  [shadow.build.compiler$do_compile_cljs_resource invoke "compiler.clj" 332]
-  [shadow.build.compiler$maybe_compile_cljs$fn__14652 invoke "compiler.clj" 623]
-  [shadow.build.compiler$maybe_compile_cljs invokeStatic "compiler.clj" 622]
-  [shadow.build.compiler$maybe_compile_cljs invoke "compiler.clj" 601]
-  [shadow.build.compiler$generate_output_for_source invokeStatic "compiler.clj" 671]
-  [shadow.build.compiler$generate_output_for_source invoke "compiler.clj" 661]
-  [shadow.build.compiler$par_compile_one invokeStatic "compiler.clj" 715]
-  [shadow.build.compiler$par_compile_one invoke "compiler.clj" 674]
-  [shadow.build.compiler$par_compile_cljs_sources$fn__14682$iter__14683__14687$fn__14688$fn__14689$fn__14690 invoke "compiler.clj" 766]
-  [clojure.lang.AFn applyToHelper "AFn.java" 152]
-  [clojure.lang.AFn applyTo "AFn.java" 144]
-  [clojure.core$apply invokeStatic "core.clj" 657]
-  [clojure.core$with_bindings_STAR_ invokeStatic "core.clj" 1965]
-  [clojure.core$with_bindings_STAR_ doInvoke "core.clj" 1965]
-  [clojure.lang.RestFn invoke "RestFn.java" 425]
-  [clojure.lang.AFn applyToHelper "AFn.java" 156]
-  [clojure.lang.RestFn applyTo "RestFn.java" 132]
-  [clojure.core$apply invokeStatic "core.clj" 661]
-  [clojure.core$bound_fn_STAR_$fn__5471 doInvoke "core.clj" 1995]
-  [clojure.lang.RestFn invoke "RestFn.java" 397]
-  [clojure.lang.AFn call "AFn.java" 18]
-  [java.util.concurrent.FutureTask run "FutureTask.java" 266]
-  [java.util.concurrent.ThreadPoolExecutor runWorker "ThreadPoolExecutor.java" 1149]
-  [java.util.concurrent.ThreadPoolExecutor$Worker run "ThreadPoolExecutor.java" 624]
-  [java.lang.Thread run "Thread.java" 748]]}} { Error: No reader function for tag object.
-    at new cljs$core$ExceptionInfo (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11123:11)
-    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$3 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11150:1)
-    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$2 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11153:16)
-    at Function.cljs.tools.reader.impl.errors.throw_ex.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:37:12)
-    at Function.cljs.tools.reader.impl.errors.reader_error.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:43:4)
-    at Object.cljs$tools$reader$impl$errors$throw_unknown_reader_tag [as throw_unknown_reader_tag] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:227:4)
-    at cljs$tools$reader$edn$read_tagged (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:374:10)
-    at /home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:72:21
-    at cljs$tools$reader$edn$read_dispatch (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs.tools.reader.edn.js:118:3)
-    at Object.cljs$tools$reader$edn$read_delimited [as read_delimited] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:176:25)
-  message: 'No reader function for tag object.',
-  data:
-   { meta: null,
-     cnt: 2,
-     arr: [ [Object], [Object], [Object], [Object] ],
-     __hash: null,
-     'cljs$lang$protocol_mask$partition0$': 16647951,
-     'cljs$lang$protocol_mask$partition1$': 139268 },
-  cause: null,
-  name: 'Error',
-  description: undefined,
-  number: undefined,
-  fileName: undefined,
-  lineNumber: undefined,
-  columnNumber: undefined,
-  stack: 'Error: No reader function for tag object.\n    at new cljs$core$ExceptionInfo (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11123:11)\n    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$3 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11150:1)\n    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$2 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11153:16)\n    at Function.cljs.tools.reader.impl.errors.throw_ex.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:37:12)\n    at Function.cljs.tools.reader.impl.errors.reader_error.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:43:4)\n    at Object.cljs$tools$reader$impl$errors$throw_unknown_reader_tag [as throw_unknown_reader_tag] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:227:4)\n    at cljs$tools$reader$edn$read_tagged (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:374:10)\n    at /home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:72:21\n    at cljs$tools$reader$edn$read_dispatch (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs.tools.reader.edn.js:118:3)\n    at Object.cljs$tools$reader$edn$read_delimited [as read_delimited] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:176:25)' }
+* Demonstrates error with shadow-cljs and > cider 0.16
+- If using Cider v 0.16
+  - Edit shadow-cljs.edn, set =[cider/cider-nrepl "0.16.0"]=
+  - Edit emacs-config2, uncomment the el-get statement for 0.16
+  - =docker-compose down && docker-compose up=
+  - Wait a while
+  - Go to
+    http://localhost:10000/index.html?server=localhost&port=10000&encoding=auto&keyboard_layout=gb&submit=true&clipboard=true&password=111&insecure=true
+  - If it asks for password, enter 111
+  - You should see emacs interface
+  - Everything should be installed
+  - Open src/mattsum/bug_test/core.cljs
+  - M-x cider-connect
+    Host: shadow-cljs
+    Post: 9991
+  - In the repl buffer
+    - =(shadow.cljs.devtools.api/watch :bug-test)=
+    - =(shadow.cljs.devtools.api/nrepl-select :bug-test)=
+  - In core.cljs, type M-x, then =cider-repl-set-ns=
+  - Edit file, add =(defn)= to force syntax error
+  - Everything should work, correct error ("Call to cljs.core/defn did not
+    conform to spec")
+- If using Cider v 0.17
+  - Edit shadow-cljs.edn, set =[cider/cider-nrepl "0.17.0"]=
+  - Edit emacs-config2, uncomment the el-get statement for 0.17
+  - =docker-compose down && docker-compose up=
+  - Wait a while
+  - Go to
+    http://localhost:10000/index.html?server=localhost&port=10000&encoding=auto&keyboard_layout=gb&submit=true&clipboard=true&password=111&insecure=true
+  - If it asks for password, enter 111
+  - You should see emacs interface
+  - Everything should be installed
+  - Open src/mattsum/bug_test/core.cljs
+  - M-x cider-connect
+    Host: shadow-cljs
+    Post: 9991
+  - M-x =cider-create-sibling-cljs-repl=
+    shadow
+    bug-test
+  - In core.cljs, type M-x, then =cider-repl-set-ns=
+  - Edit file, add =(defn)= to force syntax error
+  - In repl, you'll see [:bug-test] Compiling ...
+    In console, you'll see the following error:
+    #+BEGIN_SRC
+    shadow-cljs_1  | [2018-05-23 03:24:13 - WARNING] failed to handle server msg: {:namespaces #{mattsum.bug-test.core}, :deleted #{}, :updated #{mattsum.bug-test.core}, :added #{}, :shadow.cljs.devtools.server.system-bus/topic :shadow.cljs.devtools.server.system-msg/resource-update}
+shadow-cljs_1  | java.lang.ExceptionInInitializerError
+shadow-cljs_1  |        at shadow.build.warnings$get_source_excerpts$iter__13029__13033$fn__13034$fn__13035.invoke(warnings.clj:43)
+shadow-cljs_1  |        at shadow.build.warnings$get_source_excerpts$iter__13029__13033$fn__13034.invoke(warnings.clj:43)
+shadow-cljs_1  |        at clojure.lang.LazySeq.sval(LazySeq.java:40)
+shadow-cljs_1  |        at clojure.lang.LazySeq.seq(LazySeq.java:49)
+shadow-cljs_1  |        at clojure.lang.RT.seq(RT.java:528)
+shadow-cljs_1  |        at clojure.core$seq__5124.invokeStatic(core.clj:137)
+shadow-cljs_1  |        at clojure.core.protocols$seq_reduce.invokeStatic(protocols.clj:24)
+shadow-cljs_1  |        at clojure.core.protocols$fn__7835.invokeStatic(protocols.clj:75)
+shadow-cljs_1  |        at clojure.core.protocols$fn__7835.invoke(protocols.clj:75)
+shadow-cljs_1  |        at clojure.core.protocols$fn__7781$G__7776__7794.invoke(protocols.clj:13)
+shadow-cljs_1  |        at clojure.core$reduce.invokeStatic(core.clj:6748)
+shadow-cljs_1  |        at clojure.core$into.invokeStatic(core.clj:6815)
+shadow-cljs_1  |        at clojure.core$into.invoke(core.clj:6807)
+shadow-cljs_1  |        at shadow.build.warnings$get_source_excerpts.invokeStatic(warnings.clj:54)
+shadow-cljs_1  |        at shadow.build.warnings$get_source_excerpts.invoke(warnings.clj:9)
+shadow-cljs_1  |        at shadow.build.warnings$get_source_excerpt.invokeStatic(warnings.clj:57)
+shadow-cljs_1  |        at shadow.build.warnings$get_source_excerpt.invoke(warnings.clj:56)
+shadow-cljs_1  |        at shadow.build.compiler$maybe_compile_cljs$fn__14835.invoke(compiler.clj:645)
+shadow-cljs_1  |        at shadow.build.compiler$maybe_compile_cljs.invokeStatic(compiler.clj:621)
+shadow-cljs_1  |        at shadow.build.compiler$maybe_compile_cljs.invoke(compiler.clj:599)
+shadow-cljs_1  |        at shadow.build.compiler$generate_output_for_source.invokeStatic(compiler.clj:670)
+shadow-cljs_1  |        at shadow.build.compiler$generate_output_for_source.invoke(compiler.clj:660)
+shadow-cljs_1  |        at shadow.build.compiler$par_compile_one.invokeStatic(compiler.clj:714)
+shadow-cljs_1  |        at shadow.build.compiler$par_compile_one.invoke(compiler.clj:673)
+shadow-cljs_1  |        at shadow.build.compiler$par_compile_cljs_sources$fn__14865$iter__14866__14870$fn__14871$fn__14872$fn__14873.invoke(compiler.clj:765)
+shadow-cljs_1  |        at clojure.lang.AFn.applyToHelper(AFn.java:152)
+shadow-cljs_1  |        at clojure.lang.AFn.applyTo(AFn.java:144)
+shadow-cljs_1  |        at clojure.core$apply.invokeStatic(core.clj:657)
+shadow-cljs_1  |        at clojure.core$with_bindings_STAR_.invokeStatic(core.clj:1965)
+shadow-cljs_1  |        at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1965)
+shadow-cljs_1  |        at clojure.lang.RestFn.invoke(RestFn.java:425)
+shadow-cljs_1  |        at clojure.lang.AFn.applyToHelper(AFn.java:156)
+shadow-cljs_1  |        at clojure.lang.RestFn.applyTo(RestFn.java:132)
+shadow-cljs_1  |        at clojure.core$apply.invokeStatic(core.clj:661)
+shadow-cljs_1  |        at clojure.core$bound_fn_STAR_$fn__5471.doInvoke(core.clj:1995)
+shadow-cljs_1  |        at clojure.lang.RestFn.invoke(RestFn.java:397)
+shadow-cljs_1  |        at clojure.lang.AFn.call(AFn.java:18)
+shadow-cljs_1  |        at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+shadow-cljs_1  |        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+shadow-cljs_1  |        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+shadow-cljs_1  |        at java.lang.Thread.run(Thread.java:748)
+shadow-cljs_1  | Caused by: java.lang.RuntimeException: Can't resolve find-ns
+shadow-cljs_1  |        at clojure.lang.Util.runtimeException(Util.java:221)
+shadow-cljs_1  |        at clojure.lang.LispReader$EvalReader.invoke(LispReader.java:1315)
+shadow-cljs_1  |        at clojure.lang.LispReader$DispatchReader.invoke(LispReader.java:843)
+shadow-cljs_1  |        at clojure.lang.LispReader.read(LispReader.java:275)
+shadow-cljs_1  |        at clojure.lang.LispReader.read(LispReader.java:206)
+shadow-cljs_1  |        at clojure.lang.LispReader.read(LispReader.java:195)
+shadow-cljs_1  |        at clojure.lang.RT.readString(RT.java:1871)
+shadow-cljs_1  |        at clojure.lang.RT.readString(RT.java:1866)
+shadow-cljs_1  |        at shadow.build.warnings$get_source_excerpts$iter__13029__13033$fn__13034$fn__13035$fn__13037.<clinit>(warnings.clj:44)
+shadow-cljs_1  |        ... 41 more
+shadow-cljs_1  |
 #+END_SRC
-* 2. Error after sending code to repl
-** Start shadow-cljs server =shadow-cljs watch bug-test=
-** Start node app =node out/bug-test/main.js=
-** Connect to nrepl server (I'm using Cider)
-** Run =(shadow.cljs.devtools.api/nrepl-select :bug-test)=
-** Send the ns form from =core.cljs= to the repl (evaluate defun while cursor is inside ns form)
-Note that this also occurs if you send the entire buffer to the repl, but in
-that case the second error doesn't happen.
-** Get the first error
-#+BEGIN_SRC clojure
-repl/require failed TypeError: Cannot read property 'cljs$core$IFn$_invoke$arity$1' of null
-    at /home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:4199:12
-    at Object.cljs$core$some [as some] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs.core.js:14541:3)
-    at /home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/shadow/cljs/devtools/client/node.cljs:62:18
-    at Object.shadow$cljs$devtools$client$node$repl_require [as repl_require] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/shadow.cljs.devtools.client.node.js:244:3)
-    at Object.shadow$cljs$devtools$client$node$process_message [as process_message] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/shadow/cljs/devtools/client/node.cljs:109:6)
-    at WebSocket.<anonymous> (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/shadow/cljs/devtools/client/node.cljs:148:16)
-    at WebSocket.emit (events.js:159:13)
-    at Receiver._receiver.onmessage (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/node_modules/ws/lib/WebSocket.js:141:47)
-    at Receiver.dataMessage (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/node_modules/ws/lib/Receiver.js:389:14)
-    at Receiver.getData (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/node_modules/ws/lib/Receiver.js:330:12)
-#+END_SRC
-** Now, make any change to core.cljs to trigger reload, get the next error:
-#+BEGIN_SRC clojure
-failed to process message {:type :repl/init, :repl-state {:shadow.cljs.repl/repl-state true, :current {:cache-key [1523240942903], :ns-info {:rename-macros nil, :renames {}, :meta {:source "mattsum.bug-test.core", :file "repl-input.cljs", :line 1, :column 5, :end-line 1, :end-column 26}, :use-macros nil, :excludes #{}, :name mattsum.bug-test.core, :imports nil, :requires {cljs.core cljs.core, goog goog}, :seen #{}, :uses nil, :require-macros {cljs.core cljs.core}, :js-deps {}, :deps [goog cljs.core]}, :ns mattsum.bug-test.core, :output-name "mattsum.bug_test.core.js", :file #object[java.io.File 0x2261e4a9 "/home/matthys/projects/personal/shadow-cljs-nodejs-bug/src/mattsum/bug_test/core.cljs"], :resource-id [:shadow.build.classpath/resource "mattsum/bug_test/core.cljs"], :resource-name "mattsum/bug_test/core.cljs", :type :cljs, :last-modified 1523240942903, :requires #{cljs.core goog}, :macro-requires #{cljs.core}, :url #object[java.net.URL 0x2ca61e95 "file:/home/matthys/projects/personal/shadow-cljs-nodejs-bug/src/mattsum/bug_test/core.cljs"], :provides #{mattsum.bug-test.core}, :deps [goog cljs.core]}, :reader-features #{:cljs}, :repl-sources [{:resource-id [:shadow.build.classpath/resource "goog/base.js"], :type :goog, :resource-name "goog/base.js", :output-name "goog.base.js", :from-jar true, :provides #{goog}} {:resource-id [:shadow.build.classpath/resource "goog/debug/error.js"], :type :goog, :resource-name "goog/debug/error.js", :output-name "goog.debug.error.js", :from-jar true, :provides #{goog.debug.Error}} {:resource-id [:shadow.build.classpath/resource "goog/dom/nodetype.js"], :type :goog, :resource-name "goog/dom/nodetype.js", :output-name "goog.dom.nodetype.js", :from-jar true, :provides #{goog.dom.NodeType}} {:resource-id [:shadow.build.classpath/resource "goog/string/string.js"], :type :goog, :resource-name "goog/string/string.js", :output-name "goog.string.string.js", :from-jar true, :provides #{goog.string goog.string.Unicode}} {:resource-id [:shadow.build.classpath/resource "goog/asserts/asserts.js"], :type :goog, :resource-name "goog/asserts/asserts.js", :output-name "goog.asserts.asserts.js", :from-jar true, :provides #{goog.asserts goog.asserts.AssertionError}} {:resource-id [:shadow.build.classpath/resource "goog/reflect/reflect.js"], :type :goog, :resource-name "goog/reflect/reflect.js", :output-name "goog.reflect.reflect.js", :from-jar true, :provides #{goog.reflect}} {:resource-id [:shadow.build.classpath/resource "goog/math/long.js"], :type :goog, :resource-name "goog/math/long.js", :output-name "goog.math.long.js", :from-jar true, :provides #{goog.math.Long}} {:resource-id [:shadow.build.classpath/resource "goog/math/integer.js"], :type :goog, :resource-name "goog/math/integer.js", :output-name "goog.math.integer.js", :from-jar true, :provides #{goog.math.Integer}} {:resource-id [:shadow.build.classpath/resource "goog/object/object.js"], :type :goog, :resource-name "goog/object/object.js", :output-name "goog.object.object.js", :from-jar true, :provides #{goog.object}} {:resource-id [:shadow.build.classpath/resource "goog/array/array.js"], :type :goog, :resource-name "goog/array/array.js", :output-name "goog.array.array.js", :from-jar true, :provides #{goog.array}} {:resource-id [:shadow.build.classpath/resource "goog/structs/structs.js"], :type :goog, :resource-name "goog/structs/structs.js", :output-name "goog.structs.structs.js", :from-jar true, :provides #{goog.structs}} {:resource-id [:shadow.build.classpath/resource "goog/functions/functions.js"], :type :goog, :resource-name "goog/functions/functions.js", :output-name "goog.functions.functions.js", :from-jar true, :provides #{goog.functions}} {:resource-id [:shadow.build.classpath/resource "goog/math/math.js"], :type :goog, :resource-name "goog/math/math.js", :output-name "goog.math.math.js", :from-jar true, :provides #{goog.math}} {:resource-id [:shadow.build.classpath/resource "goog/iter/iter.js"], :type :goog, :resource-name "goog/iter/iter.js", :output-name "goog.iter.iter.js", :from-jar true, :provides #{goog.iter goog.iter.StopIteration goog.iter.Iterator goog.iter.Iterable}} {:resource-id [:shadow.build.classpath/resource "goog/structs/map.js"], :type :goog, :resource-name "goog/structs/map.js", :output-name "goog.structs.map.js", :from-jar true, :provides #{goog.structs.Map}} {:resource-id [:shadow.build.classpath/resource "goog/uri/utils.js"], :type :goog, :resource-name "goog/uri/utils.js", :output-name "goog.uri.utils.js", :from-jar true, :provides #{goog.uri.utils.QueryArray goog.uri.utils goog.uri.utils.StandardQueryParam goog.uri.utils.ComponentIndex goog.uri.utils.QueryValue}} {:resource-id [:shadow.build.classpath/resource "goog/uri/uri.js"], :type :goog, :resource-name "goog/uri/uri.js", :output-name "goog.uri.uri.js", :from-jar true, :provides #{goog.Uri.QueryData goog.Uri}} {:resource-id [:shadow.build.classpath/resource "goog/string/stringbuffer.js"], :type :goog, :resource-name "goog/string/stringbuffer.js", :output-name "goog.string.stringbuffer.js", :from-jar true, :provides #{goog.string.StringBuffer}} {:resource-id [:shadow.build.classpath/resource "cljs/core.cljs"], :type :cljs, :resource-name "cljs/core.cljs", :output-name "cljs.core.js", :from-jar true, :provides #{cljs.core}} {:resource-id [:shadow.build.classpath/resource "clojure/walk.cljs"], :type :cljs, :resource-name "clojure/walk.cljs", :output-name "clojure.walk.js", :from-jar true, :provides #{clojure.walk}} {:resource-id [:shadow.build.classpath/resource "cljs/spec/gen/alpha.cljs"], :type :cljs, :resource-name "cljs/spec/gen/alpha.cljs", :output-name "cljs.spec.gen.alpha.js", :from-jar true, :provides #{cljs.spec.gen.alpha}} {:resource-id [:shadow.build.classpath/resource "clojure/string.cljs"], :type :cljs, :resource-name "clojure/string.cljs", :output-name "clojure.string.js", :from-jar true, :provides #{clojure.string}} {:resource-id [:shadow.build.classpath/resource "cljs/spec/alpha.cljs"], :type :cljs, :resource-name "cljs/spec/alpha.cljs", :output-name "cljs.spec.alpha.js", :from-jar true, :provides #{cljs.spec.alpha}} {:resource-id [:shadow.build.classpath/resource "cljs/repl.cljs"], :type :cljs, :resource-name "cljs/repl.cljs", :output-name "cljs.repl.js", :from-jar true, :provides #{cljs.repl}} {:resource-id [:shadow.cljs.repl/resource "cljs/user.cljs"], :type :cljs, :resource-name "cljs/user.cljs", :output-name "cljs.user.js", :provides #{cljs.user}}], :repl-actions [{:type :repl/invoke, :name "<eval>", :js "(1)", :source "1", :source-map-json "{\"version\":3,\n \"file\":\"<eval>\",\n \"sources\":[\"<eval>\"],\n \"lineCount\":1,\n \"mappings\":\"\",\n \"names\":[],\n \"sourcesContent\":[\"1\"]}\n", :warnings []} {:type :repl/require, :sources [[:shadow.build.classpath/resource "goog/base.js"] [:shadow.build.classpath/resource "goog/debug/error.js"] [:shadow.build.classpath/resource "goog/dom/nodetype.js"] [:shadow.build.classpath/resource "goog/string/string.js"] [:shadow.build.classpath/resource "goog/asserts/asserts.js"] [:shadow.build.classpath/resource "goog/reflect/reflect.js"] [:shadow.build.classpath/resource "goog/math/long.js"] [:shadow.build.classpath/resource "goog/math/integer.js"] [:shadow.build.classpath/resource "goog/object/object.js"] [:shadow.build.classpath/resource "goog/array/array.js"] [:shadow.build.classpath/resource "goog/structs/structs.js"] [:shadow.build.classpath/resource "goog/functions/functions.js"] [:shadow.build.classpath/resource "goog/math/math.js"] [:shadow.build.classpath/resource "goog/iter/iter.js"] [:shadow.build.classpath/resource "goog/structs/map.js"] [:shadow.build.classpath/resource "goog/uri/utils.js"] [:shadow.build.classpath/resource "goog/uri/uri.js"] [:shadow.build.classpath/resource "goog/string/stringbuffer.js"] [:shadow.build.classpath/resource "cljs/core.cljs"]]} {:type :repl/invoke, :name "<eval>", :js "goog.provide('mattsum.bug_test.core');\ngoog.require('cljs.core');\n"} {:type :repl/set-ns, :ns mattsum.bug-test.core}]}} { Error: No reader function for tag object.
-    at new cljs$core$ExceptionInfo (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11123:11)
-    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$3 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11150:1)
-    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$2 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11153:16)
-    at Function.cljs.tools.reader.impl.errors.throw_ex.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:37:12)
-    at Function.cljs.tools.reader.impl.errors.reader_error.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:43:4)
-    at Object.cljs$tools$reader$impl$errors$throw_unknown_reader_tag [as throw_unknown_reader_tag] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:227:4)
-    at cljs$tools$reader$edn$read_tagged (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:374:10)
-    at /home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:72:21
-    at cljs$tools$reader$edn$read_dispatch (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs.tools.reader.edn.js:118:3)
-    at Object.cljs$tools$reader$edn$read_delimited [as read_delimited] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:176:25)
-  message: 'No reader function for tag object.',
-  data:
-   { meta: null,
-     cnt: 2,
-     arr: [ [Object], [Object], [Object], [Object] ],
-     __hash: null,
-     'cljs$lang$protocol_mask$partition0$': 16647951,
-     'cljs$lang$protocol_mask$partition1$': 139268 },
-  cause: null,
-  name: 'Error',
-  description: undefined,
-  number: undefined,
-  fileName: undefined,
-  lineNumber: undefined,
-  columnNumber: undefined,
-  stack: 'Error: No reader function for tag object.\n    at new cljs$core$ExceptionInfo (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11123:11)\n    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$3 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11150:1)\n    at Function.cljs.core.ex_info.cljs$core$IFn$_invoke$arity$2 (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/core.cljs:11153:16)\n    at Function.cljs.tools.reader.impl.errors.throw_ex.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:37:12)\n    at Function.cljs.tools.reader.impl.errors.reader_error.cljs$core$IFn$_invoke$arity$variadic (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:43:4)\n    at Object.cljs$tools$reader$impl$errors$throw_unknown_reader_tag [as throw_unknown_reader_tag] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/impl/errors.cljs:227:4)\n    at cljs$tools$reader$edn$read_tagged (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:374:10)\n    at /home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:72:21\n    at cljs$tools$reader$edn$read_dispatch (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs.tools.reader.edn.js:118:3)\n    at Object.cljs$tools$reader$edn$read_delimited [as read_delimited] (/home/matthys/projects/personal/shadow-cljs-nodejs-bug/.shadow-cljs/builds/bug-test/dev/out/cljs-runtime/cljs/tools/reader/edn.cljs:176:25)' }
-#+END_SRC
-** From here on out, anytime the compiled file is re-run the previous error is thrown
+      
+  

@@ -3,6 +3,6 @@
     "bluebird": "^3.5.1",
     "pouchdb-browser": "^6.4.3",
     "pouchdb-node": "^6.4.3",
-    "shadow-cljs": "^2.2.25"
+    "shadow-cljs": "^2.3.20"
   }
 }

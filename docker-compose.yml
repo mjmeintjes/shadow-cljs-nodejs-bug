@@ -1,0 +1,43 @@
+version: '2.3'
+services:
+  x11-bridge:
+    image: jare/x11-bridge
+    environment:
+      - "MODE=tcp"
+      - "XPRA_HTML=yes"
+      - "DISPLAY=:14"
+      - "XPRA_PASSWORD=111"
+    ports:
+      - 10000:10000
+  shadow-cljs:
+    build: shadow-docker
+    volumes:
+      - .:/mnt/workspace
+      - m2:/root/.m2
+    working_dir: /mnt/workspace
+    command: shadow-cljs server
+  app:
+    build: shadow-docker
+    volumes:
+      - .:/mnt/workspace
+    working_dir: /mnt/workspace
+    command: nodemon out/bug-test/main.js
+  emacs:
+    depends_on: 
+      - x11-bridge
+    volumes_from:
+      - x11-bridge
+    build: .
+    environment:
+      - "DISPLAY=:14"
+    volumes:
+       - ./emacs-config2:/home/emacs/.emacs
+       - ./ciders:/ciders
+       - .:/mnt/workspace
+       # - elget:/home/emacs/.emacs.d/el-get
+    command: /bin/bash -c "while ! nc -z x11-bridge 10000; do echo sleeping; sleep 1; done; echo Connected; emacs"
+volumes:
+  m2:
+  elget:
+  
+      
